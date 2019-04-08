@@ -145,13 +145,10 @@ paths:
           schema:
             $ref: '#/definitions/InventoryUpdate'
       responses:
-        '201':
+        '200':
           description: Item Updated
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/InventoryItem'
 
+  '/warehouses/{warehouseId}/inventory/{inventoryId}':
     delete:
       tags:
         - warehouses
@@ -163,13 +160,11 @@ paths:
           description: The ID of the warehouse containing the item
           required: true
           type: string
-        - name: item
-          description: |
-            This object represents all the Item specifics
-          in: body
+        - name: inventoryId
+          in: path
+          description: The ID of the
           required: true
-          schema:
-            $ref: '#/definitions/InventoryUpdate'
+          type: string
       responses:
         '204':
           description: Item Deleted
