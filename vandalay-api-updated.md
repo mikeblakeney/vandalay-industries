@@ -5,7 +5,7 @@ permalink: /vandalay-api-updated/
 nav_order: 5
 ---
 
-<link rel="stylesheet" type="text/css" href="/swagger-ui.css" >
+<link rel="stylesheet" type="text/css" href="/swagger-assets/swagger-ui.css" >
 
 <style>
   html
@@ -31,13 +31,13 @@ nav_order: 5
 </style>
 <div id="swagger-ui"></div>
 
-<script src="/swagger-ui-bundle.js"> </script>
-<script src="/swagger-ui-standalone-preset.js"> </script>
+<script src="/swagger-assets/swagger-ui-bundle.js"> </script>
+<script src="/swagger-assets/swagger-ui-standalone-preset.js"> </script>
 <script>
 window.onload = function() {
   // Begin Swagger UI call region
   const ui = SwaggerUIBundle({
-    url: "/vandalay-api-swagger-updated.yaml",
+    url: "/swagger/vandalay-api-swagger-updated.yaml",
     dom_id: '#swagger-ui',
     deepLinking: true,
     presets: [

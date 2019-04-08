@@ -5,3 +5,6 @@ serve:
 
 build:
 	$(docker) jekyll build
+
+deploy: build
+	echo "deploy site"

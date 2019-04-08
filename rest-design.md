@@ -28,3 +28,7 @@ The inventory PATCH verb uses a `itemDelete` boolean to delete inventory items. 
 Additionally, there should be clarity added to exactly what is being deleted by the inventory DELETE.  Is it the entire inventory for that item or is it just some quantity since there is a quantity property on the original item.
 
 # Status Codes
+Proper usage of status codes adheres to rest conventions just as the appropriate usage of HTTP verbs like DELETE.  Here are some of the status codes that were not aligned with rest conventions:
+
+none 204 --> Delete inventory
+201  200 --> Patch inventory
