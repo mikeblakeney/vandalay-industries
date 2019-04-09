@@ -1,0 +1,992 @@
+swagger: '2.0'
+info:
+  title: Vandelay Industries API - DRAFT
+  description: >-
+    [Vandelay Industries](http://www.urbandictionary.com/define.php?term=Vandelay) is a
+    vertically integrated chemical manufaturing, import/export, and sales
+    enterprise headquartered in the Upper West Side, NYC. It was founded by Art
+    Vandely in 1990.
+
+
+    It is known both for the quality of its product as well as its aggressive
+    salesperson recruiting program.
+
+
+    The Vandelay Industries API platform, documented here, represents a unified
+    view of its ERP and CRM systems for use by both internal applications and
+    3rd-party strategic partner system integrations.
+
+
+  version: 0.0.1-alpha
+  termsOfService: 'http://vandelay.apivista.com/terms/'
+
+host: vandelay.apivista.com
+schemes:
+  - https
+basePath: /v0-alpha
+produces:
+  - application/json
+paths:
+  /factories:
+    get:
+      tags:
+        - factories
+      summary: List factories in the ERP system
+      description: >-
+        The factory is an important top-level object for tracking both
+        manufacturing activities as well as supply chain & order fulfillment,
+        underpinning Vandelays import/export business.
+      operationId: getFactories
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Factory'
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:factories'
+
+    post:
+      tags:
+        - factories
+      summary: Create a factory in the ERP system
+      description: >-
+        The factory is an important top-level object for tracking both
+        manufacturing activities as well as supply chain & order fulfillment,
+        underpinning Vandelays import/export business.
+      operationId: createFactory
+      parameters:
+        - name: factory
+          description: |
+            This object represents all the factory specifics
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Factory'
+      responses:
+        '201':
+          description: Resource Created
+          schema:
+            $ref: '#/definitions/Factory'
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:factories'
+            - 'write:factories'
+  '/factories/{factoryId}':
+    get:
+      tags:
+        - factories
+      summary: Get a factory in the ERP system
+      description: >-
+        The factory is an important top-level object for tracking both
+        manufacturing activities as well as supply chain & order fulfillment,
+        underpinning Vandelays import/export business.
+      operationId: getFactory
+      parameters:
+        - name: factoryId
+          in: path
+          description: The ID of the factory
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Factory'
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:factories'
+            - 'write:factories'
+    patch:
+      tags:
+        - factories
+      summary: Update a factory in the ERP system
+      description: >-
+        The factory is an important top-level object for tracking both
+        manufacturing activities as well as supply chain & order fulfillment,
+        underpinning Vandelays import/export business.
+      operationId: updateFactory
+      parameters:
+        - name: factoryId
+          in: path
+          description: The ID of the factory
+          required: true
+          type: string
+        - name: factory
+          description: |
+            This object represents all the factory specifics
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Factory'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Factory'
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:factories'
+            - 'write:factories'
+    delete:
+      tags:
+        - factories
+      summary: Delete a factory in the ERP system
+      description: >-
+        The factory is an important top-level object for tracking both
+        manufacturing activities as well as supply chain & order fulfillment,
+        underpinning Vandelays import/export business.
+      operationId: deleteFactoriey
+      parameters:
+        - name: factoryId
+          in: path
+          description: The ID of the factory housing the machine
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Resource Deleted
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:factories'
+            - 'write:factories'
+
+  '/factories/{factoryId}/machines':
+    get:
+      tags:
+        - factories
+      summary: List machines at a given factory
+      description: >-
+        The factory is an important top-level object for tracking both
+        manufacturing activities as well as supply chain & order fulfillment,
+        underpinning Vandelays import/export business.
+      operationId: getMachines
+      parameters:
+        - name: factoryId
+          in: path
+          description: The ID of the factory housing the machine
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Machine'
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:factories'
+            - 'read:machines'
+    post:
+      tags:
+        - factories
+      summary: Records the addition of a machine at a given factory
+      operationId: createMachineForFactory
+      parameters:
+        - name: factoryId
+          in: path
+          description: The ID of the factory housing the machine
+          required: true
+          type: string
+        - name: machine
+          description: |
+            This object represents all the machine specifics
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Machine'
+      responses:
+        '201':
+          description: Resource Created
+          schema:
+            $ref: '#/definitions/Machine'
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:factories'
+            - 'read:machines'
+            - 'write:machines'
+
+  '/factories/{factoryId}/machines/{machineId}':
+    get:
+      tags:
+        - factories
+      summary: Returns a machine at a given factory
+      operationId: getMachineByIdByFactory
+      parameters:
+        - name: factoryId
+          in: path
+          description: The ID of the factory housing the machine
+          required: true
+          type: string
+        - name: machineId
+          in: path
+          description: The ID of the machine
+          required: true
+          type: string
+
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Machine'
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:factories'
+            - 'read:machines'
+
+    patch:
+      tags:
+        - factories
+      summary: Updates a machine at a given factory
+      operationId: updateMachineByIdByFactory
+      parameters:
+        - name: factoryId
+          in: path
+          description: The ID of the factory housing the machine
+          required: true
+          type: string
+        - name: machineId
+          in: path
+          description: The ID of the machine
+          required: true
+          type: string
+        - name: machine
+          description: |
+            This object represents all the machine specifics
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Machine'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Machine'
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:factories'
+            - 'read:machines'
+            - 'write:machines'
+
+    delete:
+      tags:
+        - factories
+      summary: Deletes a machine at a given factory
+      operationId: deleteMachineByIdByFactory
+      parameters:
+        - name: factoryId
+          in: path
+          description: The ID of the factory housing the machine
+          required: true
+          type: string
+        - name: machineId
+          in: path
+          description: The ID of the machine
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Resource Deleted
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:factories'
+            - 'read:machines'
+            - 'write:machines'
+
+  /warehouses:
+    get:
+      tags:
+        - warehouses
+      summary: List warehouses in the ERP system
+      description: >-
+        The warehouse is an important top-level object for tracking both inbound
+        material and outbound product.
+      operationId: getWarehouses
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Warehouse'
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:warehouses'
+
+    post:
+      tags:
+        - warehouses
+      summary: List warehouses in the ERP system
+      description: >-
+        The warehouse is an important top-level object for tracking both inbound
+        material and outbound product.
+      operationId: createWarehouse
+      parameters:
+        - name: warehouse
+          description: |
+            This object represents all the Warehouse specifics
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Warehouse'
+      responses:
+        '201':
+          description: Resource Created
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Warehouse'
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:warehouses'
+            - 'write:warehouses'
+
+  '/warehouses/{warehouseId}':
+    get:
+      tags:
+        - warehouses
+      summary: Get a warehouse in the ERP system
+      description: >-
+        The warehouse is an important top-level object for tracking both inbound
+        material and outbound product.
+      operationId: getWarehouseById
+      parameters:
+        - name: warehouseId
+          in: path
+          description: The ID of the warehouse to return inventory for inventory for
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Warehouse'
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:warehouses'
+
+    patch:
+      tags:
+        - warehouses
+      summary: Update a warehouse in the ERP system
+      description: >-
+        The warehouse is an important top-level object for tracking both inbound
+        material and outbound product.
+      operationId: updateWarehouseById
+      parameters:
+        - name: warehouseId
+          in: path
+          description: The ID of the warehouse
+          required: true
+          type: string
+        - name: warehouse
+          description: |
+            This object represents all the Warehouse specifics
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Warehouse'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Warehouse'
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:warehouses'
+            - 'write:warehouses'
+
+    delete:
+      tags:
+        - warehouses
+      summary: Delete a warehouse in the ERP system
+      description: >-
+        The warehouse is an important top-level object for tracking both inbound
+        material and outbound product.
+      operationId: deleteWarehouseById
+      parameters:
+        - name: warehouseId
+          in: path
+          description: The ID of the warehouse
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Resource Deleted
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:warehouses'
+            - 'write:warehouses'
+
+  '/warehouses/{warehouseId}/inventory':
+    get:
+      tags:
+        - warehouses
+      summary: Return an array containing inventory for a single warehouse
+      description: Currently an unpaged inventory list
+      operationId: getInventoryByWarehouseId
+      parameters:
+        - name: warehouseId
+          in: path
+          description: The ID of the warehouse to return inventory for inventory for
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Inventory'
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:warehouses'
+            - 'read:inventory'
+
+    post:
+      tags:
+        - warehouses
+      summary: Records the addition of inventory to a warehouse
+      operationId: addItem
+      parameters:
+        - name: warehouseId
+          in: path
+          description: The ID of the warehouse receiving the item
+          required: true
+          type: string
+        - name: item
+          description: |
+            This object represents all the Item specifics
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Inventory'
+      responses:
+        '201':
+          description: Resource Created
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Inventory'
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:warehouses'
+            - 'read:inventory'
+            - 'write:inventory'
+
+  '/warehouses/{warehouseId}/inventory/{inventoryId}':
+    get:
+      tags:
+        - warehouses
+      summary: Returns a single inventory for a single warehouse
+      description: Currently an unpaged inventory list
+      operationId: getInventoryItemByWarehouseId
+      parameters:
+        - name: warehouseId
+          in: path
+          description: The ID of the warehouse to return inventory for inventory for
+          required: true
+          type: string
+        - name: inventoryId
+          in: path
+          description: The ID of the iventory id to delete
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Inventory'
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:warehouses'
+            - 'read:inventory'
+
+    patch:
+      tags:
+        - warehouses
+      summary: Updates an inventory item in a warehouse
+      operationId: updateItem
+      parameters:
+        - name: warehouseId
+          in: path
+          description: The ID of the warehouse containing the item
+          required: true
+          type: string
+        - name: inventoryId
+          in: path
+          description: The ID of the iventory id to delete
+          required: true
+          type: string
+        - name: item
+          description: |
+            This object represents all the Item specifics
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Inventory'
+      responses:
+        '200':
+          description: Item Updated
+          schema:
+            $ref: '#/definitions/Inventory'
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:warehouses'
+            - 'read:inventory'
+            - 'write:inventory'
+
+    delete:
+      tags:
+        - warehouses
+      summary: Deletes an inventory item in a warehouse
+      operationId: deleteWarehouseItem
+      parameters:
+        - name: warehouseId
+          in: path
+          description: The ID of the warehouse containing the item
+          required: true
+          type: string
+        - name: inventoryId
+          in: path
+          description: The ID of the iventory id to delete
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Resource Deleted
+        304:
+          description: Not Modified
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        405:
+          description: Method Not Allowed
+        415:
+          description: Unprocessable Entity
+        429:
+          description: Too Many Requests
+      security:
+        - vandalay_auth:
+            - 'read:warehouses'
+            - 'read:inventory'
+            - 'write:inventory'
+
+definitions:
+  Factory:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+        example: Newark Latex Mfg.
+      description:
+        type: string
+        example: >-
+          Key East Coast facility for raw latex material to be processed into
+          final products for the medical industry.
+      address:
+        $ref: '#/definitions/Address'
+
+  Machine:
+    type: object
+    properties:
+      factoryId:
+        type: string
+        format: uuid
+      id:
+        type: string
+        format: uuid
+      name:
+        type: string
+        example: Extruder AB-100
+      description:
+        default: null
+        type: string
+        example: 'Extruder with 1,000fpm output capacity'
+
+  Warehouse:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      name:
+        type: string
+        example: Pier 10 Holdings
+      description:
+        type: string
+        example: >-
+          Key East Coast shipping/receiving location for storing finished
+          product, ready for distribution.
+      address:
+        $ref: '#/definitions/Address'
+
+  Inventory:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      warehouseId:
+        type: string
+        format: uuid
+      sku:
+        type: integer
+        format: int64
+      quantity:
+        type: integer
+        format: int64
+      name:
+        type: string
+        example: Waterproof seal
+      description:
+        type: string
+        example: For sealing specimens to preserve them
+
+  Address:
+    type: object
+    properties:
+      buildingName:
+        type: string
+      streetLine1:
+        type: string
+      streetLine2:
+        type: string
+      city:
+        type: string
+      stateProvince:
+        type: string
+      zipPostalCode:
+        type: string
+      country:
+        type: string
+
+securityDefinitions:
+  vandalay_auth:
+    type: oauth2
+    authorizationUrl: 'https://vandelay.apivista.com/oauth/authorize'
+    flow: implicit
+    scopes:
+      'write:factories': modify factories
+      'read:factories': read factories
+      'write:machines': modify machines
+      'read:machines': read machines
+      'write:warehouses': modify warehouses
+      'read:warehouses': read warehouses
+      'write:inventory': modify inventory
+      'read:inventory': read inventory

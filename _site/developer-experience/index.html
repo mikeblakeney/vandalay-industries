@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  
+
+  <title>Developer Experience - API Review</title>
+  <link rel="stylesheet" href="http://0.0.0.0:4000/assets/css/just-the-docs.css">
+
+  
+
+  
+    <script type="text/javascript" src="http://0.0.0.0:4000/assets/js/vendor/lunr.min.js"></script>
+  
+  <script type="text/javascript" src="http://0.0.0.0:4000/assets/js/just-the-docs.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+  <div class="page-wrap">
+    <div class="side-bar">
+      <a href="http://0.0.0.0:4000" class="site-title fs-6 lh-tight">API Review</a>
+      <span class="fs-3"><button class="js-main-nav-trigger navigation-list-toggle btn btn-outline" type="button" data-text-toggle="Hide">Menu</button></span>
+      <div class="navigation main-nav js-main-nav">
+        <nav role="navigation" aria-label="Main navigation">
+  <ul class="navigation-list">
+    
+    
+      
+        
+          <li class="navigation-list-item active">
+            
+            <a href="http://0.0.0.0:4000/404.html" class="navigation-list-link"></a>
+            
+          </li>
+        
+      
+    
+      
+        
+          <li class="navigation-list-item active">
+            
+            <a href="http://0.0.0.0:4000/" class="navigation-list-link"></a>
+            
+          </li>
+        
+      
+    
+      
+        
+          <li class="navigation-list-item">
+            
+            <a href="http://0.0.0.0:4000/rest-design/" class="navigation-list-link">Rest Design</a>
+            
+          </li>
+        
+      
+    
+      
+        
+          <li class="navigation-list-item active">
+            
+            <a href="http://0.0.0.0:4000/developer-experience/" class="navigation-list-link active">Developer Experience</a>
+            
+          </li>
+        
+      
+    
+      
+        
+          <li class="navigation-list-item">
+            
+            <a href="http://0.0.0.0:4000/next-steps/" class="navigation-list-link">Next Steps</a>
+            
+          </li>
+        
+      
+    
+      
+        
+          <li class="navigation-list-item">
+            
+            <a href="http://0.0.0.0:4000/vandalay-api/" class="navigation-list-link">Vandalay API</a>
+            
+          </li>
+        
+      
+    
+      
+        
+          <li class="navigation-list-item">
+            
+            <a href="http://0.0.0.0:4000/vandalay-api-updated/" class="navigation-list-link">Updated Vandalay API</a>
+            
+          </li>
+        
+      
+    
+      
+        
+          <li class="navigation-list-item">
+            
+            <a href="http://0.0.0.0:4000/resources/" class="navigation-list-link">Resources</a>
+            
+          </li>
+        
+      
+    
+  </ul>
+</nav>
+
+      </div>
+      <footer role="contentinfo" class="site-footer">
+        <p class="text-small text-grey-dk-000 mb-0">This site uses <a href="https://github.com/pmarsceill/just-the-docs">Just the Docs</a>, a documentation theme for Jekyll.</p>
+      </footer>
+    </div>
+    <div class="main-content-wrap js-main-content" tabindex="0">
+      <div class="page-header">
+        <div class="main-content">
+          
+          <div class="search js-search">
+            <div class="search-input-wrap">
+              <input type="text" class="js-search-input search-input" tabindex="0" placeholder="Search API Review" aria-label="Search API Review" autocomplete="off">
+              <svg width="14" height="14" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" class="search-icon"><title>Search</title><g fill-rule="nonzero"><path d="M17.332 20.735c-5.537 0-10-4.6-10-10.247 0-5.646 4.463-10.247 10-10.247 5.536 0 10 4.601 10 10.247s-4.464 10.247-10 10.247zm0-4c3.3 0 6-2.783 6-6.247 0-3.463-2.7-6.247-6-6.247s-6 2.784-6 6.247c0 3.464 2.7 6.247 6 6.247z"/><path d="M11.672 13.791L.192 25.271 3.02 28.1 14.5 16.62z"/></g></svg>
+            </div>
+            <div class="js-search-results search-results-wrap"></div>
+          </div>
+          
+          
+        </div>
+      </div>
+      <div class="main-content">
+        
+          
+        
+        <div id="main-content" class="page-content" role="main">
+          <h1 class="no_toc" id="developer-experience">Developer Experience</h1>
+
+<h2 class="no_toc text-delta" id="table-of-contents">Table of contents</h2>
+
+<ol id="markdown-toc">
+  <li><a href="#api-model-design" id="markdown-toc-api-model-design">API Model Design</a></li>
+  <li><a href="#endpoint-design" id="markdown-toc-endpoint-design">Endpoint Design</a></li>
+  <li><a href="#api-versioning" id="markdown-toc-api-versioning">API Versioning</a></li>
+  <li><a href="#document-error-responses" id="markdown-toc-document-error-responses">Document Error Responses</a></li>
+  <li><a href="#developer-sdk" id="markdown-toc-developer-sdk">Developer SDK</a></li>
+  <li><a href="#query-parameters" id="markdown-toc-query-parameters">Query Parameters</a></li>
+  <li><a href="#pagination" id="markdown-toc-pagination">Pagination</a></li>
+  <li><a href="#security" id="markdown-toc-security">Security</a></li>
+</ol>
+
+<h2 id="api-model-design">API Model Design</h2>
+
+<h3 class="no_toc" id="consolidate-the-inventory-model">Consolidate the inventory model</h3>
+<p>There are multiple definitions of the inventory model.  This will most likely be confusing to developers.  For example, the current model describing what is used with the warehouse inventory PATCH shows a model with different properties than that used by the inventory item.  Reducing inventory model to a single model will give a clearer more consistent experience to developers using the API.   This is particularly helpful if clients are expected to only access inventory with a specific warehouse.  Use the endpoint description to communicate if specific properties are required for the operation.</p>
+
+<h3 class="no_toc" id="model-properties">Model Properties</h3>
+<p>Adding ISO standard timestamps for when resources were created and updated would be very helpful for developers.  Adding <code class="highlighter-rouge">created_at</code> and <code class="highlighter-rouge">updated_at</code> to the resource models will help developers build richer user experiences in their fronted applications and assist in searching for relevant data in results such as executing client side logic to find all of the returned items that were created in the last day.</p>
+
+<p>Using strings instead of integers in your api model definition will give flexibility to migrate to a different id type in the future (uuid for example).  The documentation seems a bit ambiguous as to which should be used because the path parameters are of type string and the model ids are integers.  Similarly, using strings for Skus will yield greater flexibility.  In both of these instances, the use of an integer for these types seems to be more for indicating uniqueness rather than mathematical meaning.</p>
+
+<h2 id="endpoint-design">Endpoint Design</h2>
+
+<h3 class="no_toc" id="model-properties-1">Model Properties</h3>
+<p>Swagger for the endpoint definitions are not consistently documented.  For example, the PATCH and POST operations for inventory by warehouse id have summaries but do not have descriptions.  Consider adding descriptions for these endpoints with more detail and relevant information.  Including descriptions of the returned resources, constraints on the operation like return limits, and even details about the physical objects that are a part of the operation, can all enhance the use of the api for clients.</p>
+
+<h3 class="no_toc" id="suggested-additional-endpoints">Suggested Additional Endpoints</h3>
+<p>Adding thes additional endpoints should only be done where it fits the actual model.  For example, adding full CRUD operations for the inventory resource may not be desired if the domain model expects inventory to always be used with a related warehouse.  In this case, making developers to use a valid warehouse id when interacting with inventory items will enforce the constraint.  Here are some endpoints that might be useful to consider:</p>
+
+<ul>
+  <li>GET <code class="highlighter-rouge">/warehouses/{warehouseId}</code></li>
+  <li>POST <code class="highlighter-rouge">/warehouses/{warehouseId}</code></li>
+  <li>PATCH <code class="highlighter-rouge">/warehouses/{warehouseId}</code></li>
+  <li>DELETE <code class="highlighter-rouge">/warehouses/{warehouseId}</code></li>
+  <li>GET <code class="highlighter-rouge">/warehouses/{warehouseId}/inventory/{inventoryId}</code></li>
+  <li>GET <code class="highlighter-rouge">/factories/{factoryId}</code></li>
+  <li>POST <code class="highlighter-rouge">/factories/{factoryId}</code></li>
+  <li>PATCH <code class="highlighter-rouge">/factories/{factoryId}</code></li>
+  <li>DELETE <code class="highlighter-rouge">/factories/{factoryId}</code></li>
+  <li>GET <code class="highlighter-rouge">/factories/{factoryId}/machines/{machineId}</code></li>
+  <li>POST <code class="highlighter-rouge">/factories/{factoryId}/machines</code></li>
+  <li>PATCH <code class="highlighter-rouge">/factories/{factoryId}/machines/{machineId}</code></li>
+  <li>DELETE <code class="highlighter-rouge">/factories/{factoryId}/machines/{machineId}</code></li>
+</ul>
+
+<p>Additionally, pay especially close attention to the desired domain model when considering these</p>
+<ul>
+  <li>CRUD inventory</li>
+  <li>CRUD machines</li>
+</ul>
+
+<h2 id="api-versioning">API Versioning</h2>
+<p>Making sure the api is versioned will greatly help developers by allowing them to choose when to upgrade their client applications.  One approach is to use semantic versioning.  When using semantic versioning, only use the major version number in the url because it will indicate when a breaking change is present.  All other changes are non-breaking and really have no direct impact on the functionality from the client’s perspective.</p>
+
+<h2 id="document-error-responses">Document Error Responses</h2>
+<p>Documenting what to expect when things go wrong is just as important as documenting intended usage of the API. Here’s a list of suggested status codes and what they mean in an API:</p>
+
+<p><code class="highlighter-rouge">304 Not Modified</code> - Used when HTTP caching headers are in play</p>
+
+<p><code class="highlighter-rouge">400 Bad Request</code> - The request is malformed, such as if the body does not parse</p>
+
+<p><code class="highlighter-rouge">401 Unauthorized</code> - When no or invalid authentication details are provided. Also useful to trigger an auth popup if the API is used from a browser</p>
+
+<p><code class="highlighter-rouge">403 Forbidden</code> - When authentication succeeded but authenticated user doesn’t have access to the resource</p>
+
+<p><code class="highlighter-rouge">404 Not Found</code> - When a non-existent resource is requested</p>
+
+<p><code class="highlighter-rouge">405 Method Not Allowed</code> - When an HTTP method is being requested that isn’t allowed for the authenticated user</p>
+
+<p><code class="highlighter-rouge">410 Gone</code> - Indicates that the resource at this end point is no longer available. Useful as a blanket response for old API versions</p>
+
+<p><code class="highlighter-rouge">415 Unsupported Media Type</code> - If incorrect content type was provided as part of the request</p>
+
+<p><code class="highlighter-rouge">422 Unprocessable Entity</code> - Used for validation errors</p>
+
+<p><code class="highlighter-rouge">429 Too Many Requests</code> - When a request is rejected due to rate limiting</p>
+
+<p><strong>References:</strong></p>
+<ul>
+  <li><a href="https://tools.ietf.org/html/rfc2616">Status Code RFC</a></li>
+  <li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#http-status">REST Interpretation</a></li>
+</ul>
+
+<h2 id="developer-sdk">Developer SDK</h2>
+<p>One of the advantages to defining an API using the OpenAPI specification (Swagger) is the tooling around generating SDK clients.  This can be a powerful enablement for getting client ramped up and using the API in their prefered development language.  Swagger UI is another great tool for visualizing and trying out an API.  Tools like these depend on access to the swagger yaml file.  Consider making this file available to your clients for read access so they can leverage the great ecosystem around Swagger.</p>
+<ul>
+  <li><a href="https://swagger.io/tools/swagger-editor/">Swagger Editor</a></li>
+  <li><a href="https://swagger.io/tools/swagger-ui/">Swagger UI</a></li>
+  <li><a href="https://swagger.io/tools/swagger-codegen/">Swagger Codegen</a></li>
+</ul>
+
+<h2 id="query-parameters">Query Parameters</h2>
+<p>Adding query parameters to the api would allow clients to query specifically for the resources they might be looking for.  As an example, a client could look up all of the warehouses in a specific city, state, or country.  There really should be careful planning before going forward with adding query parameters.  When adding query parameters keep in mind the implications on the data store ensuring proper indexes are created.  Planning for the types of operations is critical as well.  For example, searching for inventory items created in the last 24 hours, or for all names that start with letter ‘A’.  Depending on the domain’s data model, querying for a specific property may invoke long running queries.  Additionally, there may not even be enough volume from clients to warrant the effort in adding the query parameter.</p>
+
+<h2 id="pagination">Pagination</h2>
+<p>Pagination will not only improve the developer experience but it will also help optimize database queries and response times by limiting the number of results returned at one time.  Consider following the pattern of how the <a href="https://developer.github.com/v3/#pagination">Github API</a> and <a href="https://develop.zendesk.com/hc/en-us/articles/360001068607-Paginating-through-lists">Zendesk API</a> paginate their results.  They are both examples of using <a href="https://tools.ietf.org/html/rfc5988#page-6">Web Link</a>.  Allowing the API to create the pagination links helps the client to focus more on the actual process of pagination rather than on creating links with correct location in the data set.</p>
+
+<h2 id="security">Security</h2>
+
+<p>Web security standards would suggest the api should only respond to https requests.  The api could forward http requests to https or outright reject the http request.</p>
+
+<p>Because the intended clients are internal and external, the api should implement some authentication and authorization method.  One suggestion is the oAuth2 standard.  The oAuth2 standard has a number of qualities that make it a good candidate for the api.  The first is the use of Json Web Tokens (JWT).  A client’s access to the api is carried with JWT not the use of sessions or cookies.  Typically with oAuth2, an client application is registered with the oAuth provider.  The oAuth provider will define what scopes are available to the client app.  These scopes can map to resources and actions such as the ability to write inventory or the ability to just read the inventory.  When a client app requests a new JWT, the request will include desired scopes.  If the desired scopes are allowed, the client is granted a set tokens through one of the allowed flows.  Thus enabling the ability to give internal clients access to different sets of endpoints than external clients.  Some of the results of implementing oAuth2 is client authentication, finer grained access controls to endpoints, and improved identity management for the api.</p>
+
+<p><strong>References</strong></p>
+<ul>
+  <li><a href="https://oauth.net/2/">oAuth 2 Standard</a></li>
+  <li><a href="https://tools.ietf.org/html/rfc7519">Json Web Tokens</a></li>
+</ul>
+
+
+
+
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
