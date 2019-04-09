@@ -26,6 +26,8 @@ Adding ISO standard timestamps for when resources were created and updated would
 
 Using strings instead of integers in your api model definition will give flexibility to migrate to a different id type in the future (uuid for example).  The documentation seems a bit ambiguous as to which should be used because the path parameters are of type string and the model ids are integers.  Similarly, using strings for Skus will yield greater flexibility.  In both of these instances, the use of an integer for these types seems to be more for indicating uniqueness rather than mathematical meaning.
 
+Many of the model property names are prefixed with the model.  For example, `warehouseId` for the id of the warehouse.  In the cases where the property is refering the model it is bound to, the prefix is not needed and will probably lead to overhead during development.  Remove these prefixes so for example `warehouseId` becomes `id`.
+
 ## Endpoint Design
 
 ### Model Properties
@@ -34,7 +36,7 @@ Swagger for the endpoint definitions are not consistently documented.  For examp
 
 ### Suggested Additional Endpoints
 {: .no_toc  }
-Adding thes additional endpoints should only be done where it fits the actual model.  For example, adding full CRUD operations for the inventory resource may not be desired if the domain model expects inventory to always be used with a related warehouse.  In this case, making developers to use a valid warehouse id when interacting with inventory items will enforce the constraint.  Here are some endpoints that might be useful to consider:
+Adding these additional endpoints should only be done where it fits the business use cases.  For example, adding full CRUD operations for the inventory resource may not be desired if the domain model expects inventory to always be used with a related warehouse.  In this case, making developers use a valid warehouse id when interacting with inventory items will enforce the desired constraint.  Here are some endpoints that might be useful to consider:
 
   - GET `/warehouses/{warehouseId}`
   - POST `/warehouses/{warehouseId}`
@@ -51,14 +53,14 @@ Adding thes additional endpoints should only be done where it fits the actual mo
   - DELETE `/factories/{factoryId}/machines/{machineId}`
 
 Additionally, pay especially close attention to the desired domain model when considering these
-  - CRUD inventory
-  - CRUD machines
+  - Full CRUD for inventory
+  - Full CRUD for machines
 
 ## API Versioning
-  Making sure the api is versioned will greatly help developers by allowing them to choose when to upgrade their client applications.  One approach is to use semantic versioning.  When using semantic versioning, only use the major version number in the url because it will indicate when a breaking change is present.  All other changes are non-breaking and really have no direct impact on the functionality from the client's perspective.
+  Making sure the api is versioned will greatly help developers by allowing them to choose when to upgrade their client applications.  One approach is to use semantic versioning.  When using semantic versioning, only use the major version number in the url because it will indicate when a breaking change is present.  All other changes are non-breaking and really have no direct impact on the functionality from the client's perspective.  Additionally, using a 410 status code with deprecated endpoints will bring furthe clarity to clients using the API.
 
 ## Document Error Responses
-Documenting what to expect when things go wrong is just as important as documenting intended usage of the API. Here's a list of suggested status codes and what they mean in an API:
+Documenting what to expect when things go wrong is just as important as documenting intended usage of the API. Here's a list of suggested status codes to consider and what they mean in an rest API:
 
 `304 Not Modified` - Used when HTTP caching headers are in play
 
@@ -86,7 +88,7 @@ Documenting what to expect when things go wrong is just as important as document
 
 
 ## Developer SDK
-  One of the advantages to defining an API using the OpenAPI specification (Swagger) is the tooling around generating SDK clients.  This can be a powerful enablement for getting client ramped up and using the API in their prefered development language.  Swagger UI is another great tool for visualizing and trying out an API.  Tools like these depend on access to the swagger yaml file.  Consider making this file available to your clients for read access so they can leverage the great ecosystem around Swagger.
+  One of the advantages to defining an API using the OpenAPI specification (Swagger) is the tooling around generating SDK clients.  This can be a powerful enablement for getting clients ramped up and using the API in their prefered development language.  Swagger UI is another great tool for visualizing and trying out an API.  Tools like these depend on access to the swagger yaml file.  Consider making this file available to your clients for read access so they can leverage the great ecosystem around Swagger.
   - [Swagger Editor](https://swagger.io/tools/swagger-editor/)
   - [Swagger UI](https://swagger.io/tools/swagger-ui/)
   - [Swagger Codegen](https://swagger.io/tools/swagger-codegen/)
@@ -101,7 +103,9 @@ Documenting what to expect when things go wrong is just as important as document
 
   Web security standards would suggest the api should only respond to https requests.  The api could forward http requests to https or outright reject the http request.
 
-  Because the intended clients are internal and external, the api should implement some authentication and authorization method.  One suggestion is the oAuth2 standard.  The oAuth2 standard has a number of qualities that make it a good candidate for the api.  The first is the use of Json Web Tokens (JWT).  A client's access to the api is carried with JWT not the use of sessions or cookies.  Typically with oAuth2, an client application is registered with the oAuth provider.  The oAuth provider will define what scopes are available to the client app.  These scopes can map to resources and actions such as the ability to write inventory or the ability to just read the inventory.  When a client app requests a new JWT, the request will include desired scopes.  If the desired scopes are allowed, the client is granted a set tokens through one of the allowed flows.  Thus enabling the ability to give internal clients access to different sets of endpoints than external clients.  Some of the results of implementing oAuth2 is client authentication, finer grained access controls to endpoints, and improved identity management for the api.
+  Because the intended clients are internal and external, the api should implement some authentication and authorization method.  One suggestion is the oAuth2 standard.  The oAuth2 standard has a number of qualities that make it a good candidate for the api.  The first is the use of Json Web Tokens (JWT).  A client's access to the api is carried with JWT not the use of sessions or cookies.  Typically with oAuth2, an client application is registered with the oAuth provider.  The oAuth provider will define what scopes are available to the client app.  These scopes can map to resources and actions such as the ability to write inventory, delete inventory, or the ability to read the inventory.  When a client app requests a new JWT, the request will include desired scopes.  If the desired scopes are allowed, the client is granted a set tokens through one of the allowed flows.  Thus enabling the ability to give internal clients access to different sets of endpoints than external clients.  Some of the results of implementing oAuth2 is client authentication, finer grained access controls to endpoints, and improved identity management for the api.
+
+Lastly, with the right kind of client identity management in place, steps can be taken to begin enhancing the API with audit trails.  Tracking when an item changes, who made the change, and what was changed can serve a variety of use cases in the security and compliance arena.
 
 **References**
   - [oAuth 2 Standard](https://oauth.net/2/)

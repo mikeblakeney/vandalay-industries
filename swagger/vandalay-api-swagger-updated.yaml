@@ -512,9 +512,7 @@ paths:
         '201':
           description: Resource Created
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Warehouse'
+            $ref: '#/definitions/Warehouse'
         304:
           description: Not Modified
         400:
@@ -724,9 +722,7 @@ paths:
         '201':
           description: Resource Created
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Inventory'
+            $ref: '#/definitions/Inventory'
         304:
           description: Not Modified
         400:
