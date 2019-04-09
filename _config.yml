@@ -24,5 +24,9 @@ exclude: ["node_modules/", "*.gemspec", "*.gem", "Gemfile", "Gemfile.lock", "pac
 # Enable or disable the site search
 search_enabled: true
 
+aux_links:
+  "Vandalay API Review on Github":
+    - "//github.com/mikeblakeney/vandalay-industries"
+
 # Color scheme currently only supports "dark" or nil (default)
 color_scheme: nil

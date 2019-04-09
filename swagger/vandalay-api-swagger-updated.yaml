@@ -750,7 +750,6 @@ paths:
       tags:
         - warehouses
       summary: Returns a single inventory for a single warehouse
-      description: Currently an unpaged inventory list
       operationId: getInventoryItemByWarehouseId
       parameters:
         - name: warehouseId
